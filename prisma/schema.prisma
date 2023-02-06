@@ -1,0 +1,23 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model BestDeal {
+  id            Int        @id @default(autoincrement())
+  pricedDateId Int        @unique
+  pricedDate   PricedDate @relation(fields: [pricedDateId], references: [id])
+  createdAt DateTime           @default(now()) 
+}
+
+model PricedDate {
+  id        Int       @id @default(autoincrement())
+  date      DateTime
+  price     Float
+  bestDeal BestDeal?
+  createdAt DateTime           @default(now()) 
+}
